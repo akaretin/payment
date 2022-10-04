@@ -1,13 +1,13 @@
-from json import dumps
-
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-
-from django.urls import reverse
+from django import HttpResponse
+from django import render
 
 import stripe
-import os
-stripe.api_key = 'sk_test_51Lo9uLEe2EKIxJhR0fqvhZqNSsC57K8szem4Icx0fFSQWP6Uf0xoLV8MRWkN06oy8XPhqdxzYO59UBUDZ98ZhO5D00XXJ2wTbc'
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
+
+stripe.api_key = env('api_key')
 def index(request):
     return render(request, 'payapp/index.html', context={'id':'price_1LoAB9Ee2EKIxJhRaoN3G6zU'})
 
@@ -16,7 +16,7 @@ def buy(request, id):
     checkout_session = stripe.checkout.Session.create(
         line_items=[
             {
-                'price':'price_1LoAB9Ee2EKIxJhRaoN3G6zU',
+                'price': id,
                 'quantity': 1,
             },
         ],
