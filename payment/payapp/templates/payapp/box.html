@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Box</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+    function redir(){
+    var stripe = Stripe('pk_test_51Lo9uLEe2EKIxJhRaPKLYLPgGbKr6FSfuVQsV1gIBfA7CKSXPiKuLj4XjqOVUR60beMKEZiQSLwKOsVDRfY6BzVO00y0YBpUNp');
+    const requestURL = "{% url 'buy' id%}";
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', requestURL);
+    xhr.onload = () => {
+        if (xhr.status !== 200) {
+            return;
+        }
+       stripe.redirectToCheckout({ sessionId: xhr.response });
+    }
+    xhr.send();
+      }
+
+    </script>
+</head>
+<body>
+Very impotend box
+<button onclick="redir()">Buy</button>
+</body>
+</html>
